@@ -1,6 +1,6 @@
 # geonodes
 
-![Scripting Geometry Nodes for Blender](docs/images/geonodes.png)
+![Scripting Geometry Nodes for Blender](_static/images/geonodes.png)
 
 ## Short
 
@@ -59,7 +59,7 @@ with gn.Tree("Geometry Nodes") as tree:
 
 The generated nodes and the result of the Geometry nodes modifier is given below:
 
-<img src="docs/images/demo_intro.png" width="600" class="center">
+<img src="_static/images/demo_intro.png" width="600" class="center">
 
 ## Installation
 

@@ -21,7 +21,7 @@ The following image shows a stack of 4 modifiers to build an hypersphere:
 - **4D Light:** Enlight the result with a 4D light
 - **4D Projection:**: Project the result into the 3D space
 
-<img src="images/hypersphere modifiers stack.png"
+<img src="_static/images/hypersphere modifiers stack.png"
      alt="Markdown Monster icon"
      width="400px"/>
 
@@ -82,25 +82,25 @@ The following image shows a stack of 4 modifiers to build an hypersphere:
 ## Show case
 ### A sphere plunged in 4D
 
-<img src="images/hypersphere 1.png"
+<img src="_static/images/hypersphere 1.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
      
 ### An hypersphere made of 7 slices
 
-<img src="images/hypersphere 2.png"
+<img src="_static/images/hypersphere 2.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
 
 ### Clifford torus
 
-<img src="images/clifford 1.png"
+<img src="_static/images/clifford 1.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
 
 ### Cones along a circle
 
-<img src="images/cones 1.png"
+<img src="_static/images/cones 1.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
 

@@ -15,23 +15,28 @@ import numpy as np
 try:
     import mathutils
 except:
+
     class mathutils:
         @staticmethod
         def Color(*args, **kwargs):
             class C:
                 hsv = 0
+
             return C()
+
 
 # ----------------------------------------------------------------------------------------------------
 
 np.random.seed = 0
 count = 1000
+
+
+# fmt:off
 color_stack = np.zeros((count, 3), float)
 color_stack[:, 0] = np.random.uniform(0. , 1. , count)
 color_stack[:, 1] = np.random.uniform(0.3, 1. , count)
 color_stack[:, 2] = np.random.uniform(0.3, 0.9, count)
 color_stack_index = 0
-
 COLORS = {
     'white'   : (0., 0., 1.00),
     'silver'  : (0., 0., 0.75),
@@ -51,7 +56,7 @@ COLORS = {
     'magenta' : (10/12, 1., 1.),
     'rose'    : (11/12, 1., 0.5),
 }
-
+# fmt:on
 def gen():
     for col in COLORS:
         print(f"light_{col:7s} = color('{col}', 0.25)")
@@ -60,53 +65,53 @@ def gen():
         print(f"{col:7s}       = color('{col}')")
         print()
 
+
 def color(name, saturation=None, value=None):
-    
     if isinstance(name, (tuple, list, np.ndarray)):
         sname, sat, val = name
         if type(sname) is str:
             return color(sname, sat, val)
         else:
             hsv = name
-            
-    elif type(name) is str:
 
-        name  = name.lower().replace(' ', '_')
-        
-        comps = name.split('_')
+    elif type(name) is str:
+        name = name.lower().replace(" ", "_")
+
+        comps = name.split("_")
         if len(comps) > 1:
             name = comps[1]
             change = comps[0]
         else:
             change = ""
-            
+
         try:
             hsv = list(COLORS[name])
         except:
-            return mathutils.Color((0., 0., 0.))
-        
+            return mathutils.Color((0.0, 0.0, 0.0))
+
         if change == "light":
             hsv[1] = 0.25
         elif change == "mid":
             hsv[1] = 0.50
         elif change == "dark":
             hsv[1] = 0.75
-            
+
     elif type(name) is mathutils.Color:
         return name
-    
+
     else:
         raise RuntimeError(f"Unknown color : {name} ({type(name).__name__}).")
-        
+
     if saturation is not None:
         hsv[1] = saturation
     if value is not None:
         hsv[2] = value
-        
+
     c = mathutils.Color()
     c.hsv = hsv
-        
+
     return c
+
 
 def next_color():
     global color_stack_index
@@ -114,11 +119,13 @@ def next_color():
     color_stack_index += 1
     return c
 
+
 def reset():
     global color_stack_index
     color_stack_index = 0
-    
 
+
+# fmt: off
 white         = color('white')
 black         = color('black')
 
@@ -186,6 +193,3 @@ light_rose    = color('rose', 0.25)
 mid_rose      = color('rose', 0.50)
 dark_rose     = color('rose', 0.75)
 rose          = color('rose')
-
-
-

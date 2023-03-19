@@ -84,7 +84,6 @@ class Node:
     """
         
     def __init__(self, bl_idname, node_name, label=None, node_color=None):
-        
         self.tree = context.tree
         """ The tree belonging the node."""
         
@@ -839,10 +838,10 @@ class Group(CustomGroup):
             raise RuntimeError(f"The node group '{node_name}' doesn't exist")
         
         label, node_color = kwargs.get('label'), kwargs.get('node_color')
-        if label is not None:
-            a.pop('label')
-        if node_color is not None:
-            a.pop('node_color')
+        # if label is not None:
+        #     a.pop('label')
+        # if node_color is not None:
+        #     a.pop('node_color')
         
         super().__init__('GeometryNodeGroup', node_name, label=label, node_color=node_color)
 
@@ -859,7 +858,7 @@ class Group(CustomGroup):
         for k, v in kwargs.items():
             index = self.insockets.get(k.lower())
             if index is None:
-                raise AttributeError(f"The node group '{node_name}' has no input socket named '{k}'.")
+                raise AttributeError(f"The node group '{self.node_name}' has no input socket named '{k}'.")
             self.plug(index, v)
         return self
 
@@ -920,7 +919,7 @@ class GroupInput(CustomGroup):
     # Default geometry input node
 
     @property
-    def input_geometry(self) -> Node:
+    def input_geometry(self):
         """ The default input geometry sockets.
         
         Returns:

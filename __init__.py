@@ -1,10 +1,9 @@
-# geonodes init file
+from math import pi, tau
 
-version = (3, 4, 0, 0)
-blender_version=(3, 4, 0)
+version = (3, 4, 1, 0)
+blender_version = (3, 4, 1)
 
-pi = 3.141592653589793
-
+# fmt: off 
 from geonodes.core.node import Node, GroupInput, GroupOutput, Frame, SceneTime, Group
 from geonodes.core.tree import Tree, Trees
 
@@ -51,5 +50,3 @@ from geonodes.nodes.functions import slice_string, smooth_maximum, smooth_minimu
 from geonodes.nodes.functions import switch_collection, switch_color, switch_float, switch_geometry, switch_image, switch_integer, switch_material
 from geonodes.nodes.functions import switch_object, switch_string, switch_texture, switch_vector, tan, tangent, tanh, to_degrees, to_radians, value_to_string
 from geonodes.nodes.functions import vector_mix, wrap, xnor, xor
-
-

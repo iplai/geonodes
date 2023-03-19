@@ -40,7 +40,7 @@ In geometry nodes, attributes refer to [domains](https://al1brn.github.io/geonod
   - edges [Edge](api/Edge.md)
   - corners [Corner](api/Corner.md)
 - Curve
-  - points [ControlPoint]api/ControlPoint.md)
+  - points [ControlPoint](api/ControlPoint.md)
   - spline [Spline](api/Spline.md)
 - Points cloud
   - points [CloudPoint](api/CloudPoint.md)
@@ -63,7 +63,3 @@ In geometry nodes, attributes refer to [domains](https://al1brn.github.io/geonod
 ## Global functions
 
 - [Global functions](api/functions.md)
-
-
-
-

@@ -124,7 +124,7 @@ To do that, we need to learn:
 - [Manipulating materials](#adding-materials)
 - [How to selectively change properties on domains](#selecting-faces)
 
-![Result](images/ico_tuto.png)
+![Result](_static/images/ico_tuto.png)
 
 ### Creating geometries
 
@@ -276,7 +276,7 @@ with gn.Tree("Icosphere tuto") as tree:
    tree.og = icosphere
 ```
 
-![Result](images/ico_tuto.png)
+![Result](_static/images/ico_tuto.png)
 
 
 

@@ -84,7 +84,7 @@ Linking two nodes consists in performing an action defined by the second node on
 
 For instance, let's have a look to the two following linked nodes:
 
-<img src="/docs/images/nns_basis.png" height="200">
+<img src="_static/images/nns_basis.png" height="200">
 
 The operation 'Set Shade Smooth' is performed on the 'Geometry' output from the node 'UV Sphere'. We have then another geometry which is the smoothed sphere.
 
@@ -96,7 +96,7 @@ In standard programming, you would translate that in:
 
 Let's look at another example:
 
-<img src="/docs/images/nns_to_mesh.png" height="200">
+<img src="_static/images/nns_to_mesh.png" height="200">
 
 In this example, we have 3 nodes and 2 links. The operation 'Curve to Mesh' transforms a curve into a mesh. The scripting would be the same as the previous one:
 
@@ -119,7 +119,7 @@ It does mean that each node as a 'self' input socket which will be connected to 
 
 Some nodes have parameters. Let's look at the 'Mesh to Points' node:
 
-<img src="/docs/images/mesh_to_points.png" height="250">
+<img src="_static/images/mesh_to_points.png" height="250">
 
 It has a parameter `mode` to define how the conversion must be made (vertices, edges,...). This parameter is passed as an argument of the method:
 
@@ -270,7 +270,7 @@ with gn.Tree("Geometry Nodes") as tree:
 
 The resuling tree is the following:
 
-<img src="docs/images/node_labeling.png" width="600">
+<img src="_static/images/node_labeling.png" width="600">
 
 
 ## Initializing classes
@@ -299,7 +299,7 @@ with gn.Tree("Geometry Nodes") as tree:
  
  The variable correspond to output sockets of the initialization nodes:
  
- ![Value classes initialization](docs/images/value_init.png)
+ ![Value classes initialization](_static/images/value_init.png)
  
  ### 2. Group inputs
  
@@ -321,7 +321,7 @@ with gn.Tree("Geometry Nodes") as tree:
  The variables represent now the sockets of group input node:
  
  
- <img src="docs/images/group_input_values.png" width="200">
+ <img src="_static/images/group_input_values.png" width="200">
 
  
  Geometry classes can also be initialized from a group input socket.<br>
@@ -341,7 +341,7 @@ with gn.Tree("Geometry Nodes") as tree:
  
  The group input is now:
  
- <img src="docs/images/group_input_other.png" width="200">
+ <img src="_static/images/group_input_other.png" width="200">
 
  ### 3. Mesh and Curve constructors
  
@@ -357,7 +357,7 @@ with gn.Tree("Geometry Nodes") as tree:
     tree.output_geometry = sphere
 ```    
 
-<img src="docs/images/uv_sphere.png" width="300">
+<img src="_static/images/uv_sphere.png" width="300">
 
 ## Value classes : single value or array of values
 
@@ -395,7 +395,7 @@ with gn.Tree("Geometry Nodes") as tree:
     tree.output_geometry = cube
  ```  
  
-<img src="docs/images/material_shift_nodes.png" height="250"> <img src="docs/images/colored_cubes.png" height="250">
+<img src="_static/images/material_shift_nodes.png" height="250"> <img src="_static/images/colored_cubes.png" height="250">
 
 Note that in real life, this example would certainly have been written in a more concentrated style, while keeping the same readibility.
 The following two lines generate the above 6-nodes, 5-links tree:
@@ -545,7 +545,7 @@ with gn.Tree("Geometry Nodes") as tree:
 In the generated tree, we can see that the node property of the torus has changed after the call of `set_shade_smooth`:
 
 
-<img src="docs/images/transformation_creation.png" width="600">
+<img src="_static/images/transformation_creation.png" width="600">
 
 
 

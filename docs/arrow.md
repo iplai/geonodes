@@ -9,7 +9,7 @@ We want to control these parameters with the modifier, including the material on
 
 The image below shows what we want to build:
 
-<img src="images/arrow_1.png" width="600" class="center">
+<img src="_static/images/arrow_1.png" width="600" class="center">
 
 
 ## Parameters
@@ -48,7 +48,7 @@ with gn.Tree("Arrow") as tree:
 We will build the arrow by extruding a base disk up along the z axis and then enlarging the cylinder to build the arrowhead.
 Some maths are required to build the arrow according the parameters.
 
-<img src="images/Arrow_comp.png" width="600" class="center">
+<img src="_static/images/Arrow_comp.png" width="600" class="center">
 
 The corresponding python code is given here after:
 
@@ -168,7 +168,7 @@ with gn.Tree("Arrow") as tree:
 The arrow looks good but a problem appears with low numbers of vertices: the vertices don't join at the top of the arrowhead.
 For instance, with 5 vertices, the arrow is given below:
 
-<img src="images/arrow_2.png" width="600" class="center">
+<img src="_static/images/arrow_2.png" width="600" class="center">
 
 This is due to the fact that we extrude edges using their position.
 The edges positions are supposed to be on a circle, when in reality, the edges positions are the mean of their two vertices.

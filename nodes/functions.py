@@ -1860,7 +1860,7 @@ def string_to_curves(string=None, size=None, character_spacing=None, word_spacin
 def switch(switch=None, false=None, true=None, input_type='GEOMETRY'):
     """
 
-    > Node: [Switch](GeometryNodeSwitch.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/utilities/switch.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSwitch.html)
+    > Node: [Switch](api/GeometryNodeSwitch.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/utilities/switch.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSwitch.html)
 
     #### Args:
     - switch: ['Boolean', 'Boolean']

@@ -10,8 +10,9 @@ Blender version: 3.4.0
 """
 
 from geonodes.core.node import Node
+import geonodes
 
-
+# fmt: off
 # ----------------------------------------------------------------------------------------------------
 # Node AlignEulerToVector for FunctionNodeAlignEulerToVector
 
@@ -5272,7 +5273,7 @@ class Index(Node):
         self.outsockets = {'index' : 0, }
 
     @property
-    def index(self):
+    def index(self) -> "geonodes.Integer":
         return self.get_output_socket('index')
 
 # ----------------------------------------------------------------------------------------------------
@@ -5939,7 +5940,7 @@ class Position(Node):
         self.outsockets = {'position' : 0, }
 
     @property
-    def position(self):
+    def position(self) -> "geonodes.Vector":
         return self.get_output_socket('position')
 
 # ----------------------------------------------------------------------------------------------------
@@ -14461,7 +14462,7 @@ class VectorMath(Node):
         self.bnode.operation = value
 
     @property
-    def vector(self):
+    def vector(self) -> "geonodes.Vector":
         return self.get_output_socket('vector')
 
     @property

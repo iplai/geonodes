@@ -10,6 +10,9 @@ from pprint import pprint
 
 from mathutils import Vector, Color
 import bpy
+from bpy.types import Node as bNode
+from bpy.types import NodeTree as bNodeTree
+from bpy.types import NodeLink as bNodeLink
 
 # fmt: off
 NODE_DIMS = {
@@ -540,11 +543,11 @@ NODE_DIMS = {
                 'EULER_XYZ'          : (280, 588),},},
 }
 # fmt: on
+"""
 # ====================================================================================================
 # Build the node dimensions by trying all the parameter configurations
 #
 # Must be run with an open "Geometry Nodes Editor"
-
 
 def gen_node_dims():
     print("-" * 80)
@@ -556,53 +559,14 @@ def gen_node_dims():
     print()
 
     STD_ATTRS = [
-        "__doc__",
-        "__module__",
-        "__slots__",
-        "bl_description",
-        "bl_height_default",
-        "bl_height_max",
-        "bl_height_min",
-        "bl_icon",
-        "bl_idname",
-        "bl_label",
-        "bl_rna",
-        "bl_static_type",
-        "bl_width_default",
-        "bl_width_max",
-        "bl_width_min",
-        "color",
-        "dimensions",
-        "draw_buttons",
-        "draw_buttons_ext",
-        "height",
-        "hide",
-        "input_template",
-        "inputs",
-        "internal_links",
-        "is_registered_node_type",
-        "label",
-        "location",
-        "mute",
-        "name",
-        "output_template",
-        "outputs",
-        "parent",
-        "poll",
-        "poll_instance",
-        "rna_type",
-        "select",
-        "show_options",
-        "show_preview",
-        "show_texture",
-        "socket_value_update",
-        "type",
-        "update",
-        "use_clamp",
-        "use_custom_color",
-        "width",
-        "width_hidden",
-    ]
+       '__doc__', '__module__', '__slots__', 'bl_description', 'bl_height_default', 'bl_height_max',
+       'bl_height_min', 'bl_icon', 'bl_idname', 'bl_label', 'bl_rna', 'bl_static_type',
+       'bl_width_default', 'bl_width_max', 'bl_width_min', 'color', 'dimensions', 'draw_buttons',
+       'draw_buttons_ext', 'height', 'hide', 'input_template', 'inputs', 'internal_links',
+       'is_registered_node_type', 'label', 'location', 'mute', 'name', 'output_template', 'outputs',
+       'parent', 'poll', 'poll_instance', 'rna_type', 'select', 'show_options', 'show_preview',
+       'show_texture', 'socket_value_update', 'type', 'update', 'use_clamp', 'use_custom_color',
+       'width', 'width_hidden']
 
     tree_name = "Geometry Nodes"
     tree = bpy.data.node_groups[tree_name]
@@ -793,19 +757,18 @@ def gen_node_dims():
         s += "},"
 
         print(s)
-
-
-# ====================================================================================================
-# Custom group dimensions
+"""
 
 
 def group_dim(node):
+    """Custom group dimensions"""
+
     dims = NODE_DIMS.get(node.bl_idname)
     if dims is None:
         print(f"WARNING geonodes arrange: the node '{node.bl_idname}' is not referenced in NODE_DIMS")
         return [200, 200]
 
-    nd = list(dims["dimensions"])
+    nd: list[int] = list(dims["dimensions"])
 
     # ----- Output sockets
 
@@ -821,8 +784,8 @@ def group_dim(node):
             if sock.bl_idname[:16] == "NodeSocketVector" and not bool(sock.links):
                 h += 120
 
-    if node.bl_idname == "GeometryNodeGroup":
-        nd[0] = 474
+    # if node.bl_idname == "GeometryNodeGroup":
+    #     nd[0] = 474
 
     nd[1] = h
 
@@ -833,9 +796,9 @@ def group_dim(node):
 # Frame dimensions
 
 
-def frame_dim(tree, frame):
-    first_node = True
-    for node in tree.nodes:
+def frame_dim(tree: bNodeTree, frame: bNode):
+    W0, W1, H0, H1 = 0, 0, 0, 0
+    for i, node in enumerate(tree.nodes):
         if node.parent != frame:
             continue
 
@@ -846,9 +809,8 @@ def frame_dim(tree, frame):
         h0 = 2 * node.location[1] - ndim[1]
         h1 = 2 * node.location[1]
 
-        if first_node:
+        if i == 0:
             W0, W1, H0, H1 = w0, w1, h0, h1
-            first_node = False
 
         else:
             W0 = min(W0, w0)
@@ -856,20 +818,16 @@ def frame_dim(tree, frame):
             H0 = min(H0, h0)
             H1 = max(H1, h1)
 
-    return ((W1 - W0) + 120, (H1 - H0) + 120)
+    return [(W1 - W0) + 120, (H1 - H0) + 120]
 
 
 # ====================================================================================================
 # Node dimensions
 
 
-def node_dim(node, tree=None):
+def node_dim(node: bNode):
     if node.bl_idname in ["GeometryNodeGroup", "NodeGroupInput", "NodeGroupOutput"]:
         return group_dim(node)
-
-    if node.bl_idname == "FRAME":
-        raise Exception()
-        return frame_dim(tree, frame)
 
     # ----- General case
 
@@ -878,9 +836,9 @@ def node_dim(node, tree=None):
         print(f"WARNING geonodes arrange: the node '{node.bl_idname}' is not referenced in NODE_DIMS")
         return [200, 200]
 
-    nd = list(ddims["dimensions"])
+    nd: list[int] = list(ddims["dimensions"])
 
-    pcount = ddims["param_count"]
+    pcount: int = ddims["param_count"]
 
     # ----- One changing attribute
 
@@ -894,7 +852,6 @@ def node_dim(node, tree=None):
     # -----More than one changing attribute
 
     elif pcount > 1:
-        names = ddims["names"]
         key = ()
         for name in ddims["names"]:
             key += (getattr(node, name),)
@@ -922,8 +879,6 @@ def node_dim(node, tree=None):
     else:
         return [nd[0] / 2, nd[1] / 2]
 
-    return nd
-
 
 # ====================================================================================================
 # Delete the frames
@@ -937,16 +892,18 @@ def delete_frames(tree):
 
 
 # ====================================================================================================
-# Delete the reroute
+#
 
 
-def delete_reroute(tree):
-    # ----- A reroute node is one to many
-    # One reroute gives a list of to_sockets
-    # The from_socket and the to_sockets can also be reroute nodes
-    # Recursive call will allow to manage that
+def delete_reroute(tree: bNodeTree):
+    """Delete the reroute
 
-    def get_from_socket(reroute):
+    A reroute node is one to many. One reroute gives a list of to_sockets. \
+    The from_socket and the to_sockets can also be reroute nodes. \
+    Recursive call will allow to manage that.
+    """
+
+    def get_from_socket(reroute: bNode):
         if not reroute.inputs[0].links:
             return None
 
@@ -957,7 +914,7 @@ def delete_reroute(tree):
         else:
             return link.from_socket
 
-    def get_to_sockets(reroute):
+    def get_to_sockets(reroute: bNode):
         to_sockets = []
         if not reroute.outputs[0].links:
             return to_sockets
@@ -973,8 +930,6 @@ def delete_reroute(tree):
     links = []
     dels = []
     count = 0
-
-    reroutes = [node for node in tree.nodes if node.bl_idname == "NodeReroute"]
 
     for node in tree.nodes:
         if node.bl_idname == "NodeReroute":
@@ -1002,7 +957,7 @@ def delete_reroute(tree):
 # Create reroute nodes as entry and exit points in frames
 
 
-def is_in_frame(node, frame):
+def is_in_frame(node: bNode, frame: bNode):
     nd = node
     for _ in range(10):
         if nd.parent is None:
@@ -1016,7 +971,7 @@ def is_in_frame(node, frame):
     return False  # Should never append
 
 
-def frame_inputs(tree):
+def frame_inputs(tree: bNodeTree):
     for frame in tree.nodes:
         if frame.bl_idname != "NodeFrame":
             continue
@@ -1030,7 +985,9 @@ def frame_inputs(tree):
         # ----- All the links in the frame
 
         links = [
-            link for link in tree.links if not is_in_frame(link.from_node, frame) and is_in_frame(link.to_node, frame)
+            link for link in tree.links
+            if not is_in_frame(link.from_node, frame)
+            and is_in_frame(link.to_node, frame)
         ]
 
         # ----- Reroute the links
@@ -1052,11 +1009,11 @@ def frame_inputs(tree):
 
         # ----- Create the reroutes
 
-        x_sepa = 30
-        y_sepa = 50
+        X_SEPA = 30
+        Y_SEPA = 50
 
-        x = -frame.dimensions[0] / 2 - x_sepa
-        y = -frame.dimensions[1] / 2 + y_sepa
+        x = -frame.dimensions[0] / 2 - X_SEPA
+        y = -frame.dimensions[1] / 2 + Y_SEPA
 
         for from_socket, to_sockets in reroutes.items():
             node = tree.nodes.new(type="NodeReroute")
@@ -1068,10 +1025,10 @@ def frame_inputs(tree):
                 tree.links.new(node.outputs[0], to_socket)
 
             node.location = (x, y)
-            y += y_sepa
+            y += Y_SEPA
 
 
-def frame_outputs(tree):
+def frame_outputs(tree: bNodeTree):
     for frame in tree.nodes:
         if frame.bl_idname != "NodeFrame":
             continue
@@ -1107,11 +1064,11 @@ def frame_outputs(tree):
 
         # ----- Create the reroutes
 
-        x_sepa = 30
-        y_sepa = 50
+        X_SEPA = 30
+        Y_SEPA = 50
 
-        x = 2 * x_sepa
-        y = y_sepa
+        x = 2 * X_SEPA
+        y = Y_SEPA
 
         for from_socket, to_sockets in reroutes.items():
             node = tree.nodes.new(type="NodeReroute")
@@ -1123,14 +1080,14 @@ def frame_outputs(tree):
                 tree.links.new(node.outputs[0], to_socket)
 
             node.location = (x, y)
-            y -= y_sepa
+            y -= Y_SEPA
 
 
 # ====================================================================================================
 # Delete single nodes
 
 
-def delete_single_nodes(tree):
+def get_single_nodes(tree: bNodeTree):
     nodes = []
     for node in tree.nodes:
         if node.bl_idname in ["NodeFrame"]:
@@ -1151,23 +1108,14 @@ def delete_single_nodes(tree):
         if single:
             nodes.append(node)
 
-    for node in nodes:
-        # if node.bl_idname in ["NodeGroupInput"]:
-        #     tree.nodes.remove(node)
-        node.use_custom_color = True
-        node.color = Color((1, 1, 1))
-
-    return len(nodes)
-
-
-# ====================================================================================================
-# Hierachical boxes
+    return nodes
 
 
 class Box:
-    BOXES = []
+    """Hierachical boxes"""
+    BOXES: list["Box"] = []
 
-    def __init__(self, tree, node):
+    def __init__(self, tree: bNodeTree, node: bNode):
         super().__init__()
 
         self.index = len(Box.BOXES)
@@ -1175,7 +1123,7 @@ class Box:
 
         self.tree = tree
         self.node = node
-        self.frame = None
+        self.frame: "Frame" = None
 
         self.is_tree = False
         self.is_frame = False
@@ -1189,15 +1137,15 @@ class Box:
                 pass
 
             elif self.node.bl_idname == "NodeReroute":
-                self._dims = [0, -30]
+                self._dims = [0, Column.Y_SEPA - 30]
                 self._margin = [0, -15]
 
             else:
-                self._dims = node_dim(node, self.tree)
+                self._dims = node_dim(node)
 
         # ----- Links
 
-        self.in_siblings = {}
+        self.in_siblings: dict[int, BoxLink] = {}
 
         # ----- Location
 
@@ -1218,7 +1166,7 @@ class Box:
 
     @property
     def slinks(self):
-        return f"\n   ins:  {[Box.BOXES[b].name for b in self.in_siblings]}"
+        return f"\n   ins:  {[Box.BOXES[i].name for i in self.in_siblings]}"
 
     def __str__(self):
         return f"<Box '{self.name}'>"
@@ -1226,51 +1174,33 @@ class Box:
     def __repr__(self):
         return f"<Box {self.name}" + self.slinks + "\n>"
 
-    # ---------------------------------------------------------------------------
-    # Access to the box of a node
-
     def node_box(self, node):
+        """Access to the box of a node"""
+
         for i, nd in enumerate(self.tree.nodes):
             if nd == node:
                 return Box.BOXES[i]
         raise RuntimeError(f"Algo error: node '{node}' strangely boxed.")
 
-    # ---------------------------------------------------------------------------
-    # Boxes from indices
-
-    @staticmethod
-    def from_index(index):
-        if isinstance(index, int):
-            return Box.BOXES[index]
-        else:
-            return [Box.from_index(i) for i in index]
-
-    # ---------------------------------------------------------------------------
-    # Top frame
-
     @property
     def top(self):
+        """Top frame"""
         return self.frame.top
-
-    # ---------------------------------------------------------------------------
-    # Hierarchical depth
 
     @property
     def depth(self):
+        """Hierarchical depth"""
         return self.frame.depth + 1
-
-    # ---------------------------------------------------------------------------
-    # Location
-    #
-    # Margin mechanism is used by frames
 
     @property
     def margin(self):
+        """Margin mechanism is used by frames"""
         return Vector(self._margin)
 
     @property
     def location(self):
-        return list(self.node.location + self.margin)
+        vector = Vector(self.node.location) + self.margin
+        return [vector.x, vector.y]
 
     @location.setter
     def location(self, value):
@@ -1292,11 +1222,9 @@ class Box:
     def y(self, value):
         self.location = (self.x, value)
 
-    # ---------------------------------------------------------------------------
-    # Width and height
-
     @property
     def dims(self):
+        """Width and height"""
         return self._dims
 
     @property
@@ -1307,75 +1235,74 @@ class Box:
     def h(self):
         return self.dims[1]
 
-    # ---------------------------------------------------------------------------
-    # Sort the in_siblings links
-    # Used by frames
-
     def sorted_in_siblings(self):
         return list(self.in_siblings.values())
 
-    # ---------------------------------------------------------------------------
-    # Sibling test
+    def is_sibling(self, other: "Box"):
+        """Sibling test"""
 
-    def is_sibling(self, other):
+        # any of the two boxes is a top frame
         if self.node is None or other.node is None:
             return False
 
+        # self is a top box
         if self.node.parent is None:
             return other.node.parent is None
 
-        elif other.node.parent is None:
+        if other.node.parent is None:
             return False
 
-        else:
-            return self.node.parent == other.node.parent
+        return self.node.parent == other.node.parent
 
-    # ---------------------------------------------------------------------------
-    # Sibling ancestor
-    # Return self or one ancestor so that the parent is the one passed in param
+    def common_ancestor(self, other: "Box"):
+        """ Sibling ancestor
 
-    def common_ancestor(self, other):
+        ### Return:
+        - The innermost common Frame
+        - The outermost frame or box of A
+        - The outermost frame or box of B
+        """
+
         if self == other:
             raise RuntimeError("common_ancestor: This is a stupid request!")
 
-        box0 = self
-        box1 = other
+        box_a: Box = self
+        box_b = other
 
-        depth0 = box0.depth
-        depth1 = box1.depth
+        depth0 = box_a.depth
+        depth1 = box_b.depth
         depth = depth0
 
         if depth0 > depth1:
             for _ in range(depth0 - depth1):
-                box0 = box0.frame
+                box_a = box_a.frame
             depth = depth1
 
         elif depth1 > depth0:
             for _ in range(depth1 - depth0):
-                box1 = box1.frame
+                box_b = box_b.frame
             depth = depth0
 
         # ----- Same depth now
 
-        if box0 == box1:
+        if box_a == box_b:
             raise RuntimeError("common_ancestor: No common ancestor when one is the ancestor of the other")
 
         for _ in range(depth):
-            if box0.frame is None or box1.frame is None:
+            if box_a.frame is None or box_b.frame is None:
                 raise RuntimeError("common_ancestor: I can't believe this could happen!")
 
-            if box0.is_sibling(box1):
-                return box0.frame, box0, box1
+            if box_a.is_sibling(box_b):
+                return box_a.frame, box_a, box_b
 
-            box0 = box0.frame
-            box1 = box1.frame
+            box_a = box_a.frame
+            box_b = box_b.frame
 
-        raise RuntimeError("common_ancestor: Normally tjhs should never happen")
+        raise RuntimeError("common_ancestor: Normally this should never happen")
 
-    # ---------------------------------------------------------------------------
-    # Compute the columns
+    def update_column(self, col: int):
+        """Compute the columns"""
 
-    def update_column(self, col):
         if self.infinite_loop:
             return
 
@@ -1384,7 +1311,8 @@ class Box:
 
             self.infinite_loop = True
 
-            for box in Box.from_index(list(self.in_siblings.keys())):
+            for i in self.in_siblings:
+                box = Box.BOXES[i]
                 box.update_column(self.col + 1)
 
             self.infinite_loop = False
@@ -1417,13 +1345,10 @@ class Box:
         return len(self.in_siblings) != 0
 
 
-# ====================================================================================================
-# A link between two boxes
-#
+class BoxLink(list[bNodeLink]):
+    """A link between two boxes"""
 
-
-class BoxLink(list):
-    def __init__(self, top, link, nodes=None):
+    def __init__(self, top: "Frame", link: bNodeLink, nodes: list[bNode] = None):
         super().__init__()
 
         self.append(link)
@@ -1433,7 +1358,7 @@ class BoxLink(list):
         if nodes is None:
             nodes = list(top.tree.nodes)
 
-        self.key = (nodes.index(link.from_node), nodes.index(link.to_node))
+        self.key = nodes.index(link.from_node), nodes.index(link.to_node)
 
         self.box_from = Box.BOXES[self.key[0]]
         self.box_to = Box.BOXES[self.key[1]]
@@ -1456,24 +1381,17 @@ class BoxLink(list):
         return f"<BoxLink {self.key}, {len(self)} link(s), siblings=({self.sib_from.index}, {self.sib_to.index})"
 
 
-# ====================================================================================================
-# A frame
-
-
 class Frame(Box):
     def __init__(self, tree, node):
         super().__init__(tree, node)
         self.sized = False
 
-        self.boxes = []
+        self.boxes: list[Box] = []
 
         self.is_tree = node is None
         self.is_frame = True
 
         self.cols = None
-
-    # ===========================================================================
-    # Some debug utilities
 
     def track_box(self, x0, y0, x1, y1, parent=True):
         rr0 = self.tree.nodes.new("NodeReroute")
@@ -1507,7 +1425,6 @@ class Frame(Box):
         self.track_box(self.x, self.y, self.x + self.w, self.y - self.h, parent=False)
 
     # ===========================================================================
-    # str
 
     @property
     def name(self):
@@ -1524,46 +1441,43 @@ class Frame(Box):
 
         return s
 
-    # ---------------------------------------------------------------------------
-    # Sort the in_siblings links
-
     def sorted_in_siblings(self):
+        """Sort the in_siblings links"""
+
         links = sorted(self.in_siblings.values(), key=lambda bl: -bl.box_to.y)
+
         return links
 
-    # ---------------------------------------------------------------------------
-    # The frame is drawn as a rectangle around its boxes (plus a certain margin)
-    # The frame origin can be outside the drawn rectangle
-    # In the algorithm, we need to locate a frame in the same way we locate a node:
-    # - location at the top left corner
-    #
-    # The inner_box return the coordinates of the box including
-    # exactly the child boxes: x0, y0, x1, y1
-    #
-    # The inner box is used to compute:
-    # - the frame dimensions : (x1 - x0, y1 - y0)
-    # - the offset location  : (x0, y0) (plus the margin)
+    """
+    The frame is drawn as a rectangle around its boxes (plus a certain margin)
+    The frame origin can be outside the drawn rectangle
+    In the algorithm, we need to locate a frame in the same way we locate a node:
+    - location at the top left corner
+    
+    The inner_box return the coordinates of the box including
+    exactly the child boxes: x0, y0, x1, y1
+    
+    The inner box is used to compute:
+    - the frame dimensions : (x1 - x0, y1 - y0)
+    - the offset location  : (x0, y0) (plus the margin)
+    """
 
     @property
     def inner_box(self):
-        if self.boxes:
-            x0 = None
-            for box in self.boxes:
-                if x0 is None:
-                    x0 = box.x
-                    y0 = box.y
-                    x1 = box.x + box.w
-                    y1 = box.y + box.h
-                else:
-                    x0 = min(x0, box.x)
-                    y0 = max(y0, box.y)
-                    x1 = max(x1, box.x + box.w)
-                    y1 = min(y1, box.y - box.h)
+        x0, y0, x1, y1 = 0, 0, 0, 0
+        for i, box in enumerate(self.boxes):
+            if i == 0:
+                x0 = box.x
+                y0 = box.y
+                x1 = box.x + box.w
+                y1 = box.y + box.h
+            else:
+                x0 = min(x0, box.x)
+                y0 = max(y0, box.y)
+                x1 = max(x1, box.x + box.w)
+                y1 = min(y1, box.y - box.h)
 
-            return x0, y0, x1, y1
-
-        else:
-            return 0, 0, 0, 0
+        return x0, y0, x1, y1
 
     # ---------------------------------------------------------------------------
     # Frame margin
@@ -1571,107 +1485,87 @@ class Frame(Box):
     @property
     def margin(self):
         if self.sized:
-            return self._margin
+            return Vector(self._margin)
 
         x0, y0, _, _ = self.inner_box
 
         return Vector((x0 - 30, -y0 + 30))
 
-    # ---------------------------------------------------------------------------
-    # Frame dimensions
-
     @property
     def dims(self):
+        """Frame dimensions"""
+
         if self.sized:
             return self._dims
 
         x0, y0, x1, y1 = self.inner_box
 
-        return (x1 - x0 + 60, y0 - y1 + 60)
-
-        if self.boxes:
-            first_node = True
-            for box in self.boxes:
-                w0 = 2 * box.x
-                w1 = 2 * box.x + box.w
-                h0 = 2 * box.y - box.h
-                h1 = 2 * box.y
-
-                if first_node:
-                    W0, W1, H0, H1 = w0, w1, h0, h1
-                    first_node = False
-
-                else:
-                    W0 = min(W0, w0)
-                    W1 = max(W1, w1)
-                    H0 = min(H0, h0)
-                    H1 = max(H1, h1)
-
-            return [(W1 - W0) / 2 + 120, (H1 - H0) / 2 + 120]
-
-        else:
-            return [120, 120]
-
-    # ---------------------------------------------------------------------------
-    # Top frame
+        return [x1 - x0 + 60.0, y0 - y1 + 60.0]
 
     @property
-    def top(self):
+    def top(self) -> "Frame":
+        """Top frame <-- recursive"""
         return self if self.node is None else self.frame.top
-
-    # ---------------------------------------------------------------------------
-    # Hierarchical depth
 
     @property
     def depth(self):
+        """Hierarchical depth"""
         return 0 if self.node is None else self.frame.depth + 1
 
-    # ---------------------------------------------------------------------------
-    # All children
-    # Return children ids
-
     @property
-    def all_children(self):
-        children = []
+    def all_children(self) -> list[int]:
+        """IDs of all children"""
+
+        ids = []
+
         for child in self.boxes:
-            children.append(child.index)
+            ids.append(child.index)
             if child.is_frame:
-                children += child.all_children
+                ids += child.all_children
 
-        return children
-
-    # ---------------------------------------------------------------------------
-    # Build the frame
+        return ids
 
     def build(self):
+        """Build the frame"""
+
         for box in Box.BOXES:
             # ----- Get the nodes belonging to the frame
 
             if box == self or box.node is None:
                 continue
 
-            if (self.node is None and box.node.parent is None) or (
-                self.node is not None and box.node.parent == self.node
-            ):
+            is_in = False
+
+            # self is a top frame
+            if self.node is None:
+                # box in top frame
+                if box.node.parent is None:
+                    is_in = True
+            # self is frame
+            if self.node is not None:
+                # box in frame
+                if box.node.parent == self.node:
+                    is_in = True
+
+            if is_in:
                 box.frame = self
                 self.boxes.append(box)
 
-    # ---------------------------------------------------------------------------
-    # The full tree
-
     @classmethod
-    def Tree(cls, tree, reroutes=False):
+    def Tree(cls, tree, **kwargs):
+        """The full tree"""
+
         Box.BOXES = []
 
         # ---- Insert reroutes
 
-        if reroutes:
+        if kwargs.get("reroutes"):
             frame_inputs(tree)
             frame_outputs(tree)
 
-        # ---- Build the boxes such as their index is the same as teir nodes index
+        # ---- Build the boxes such as their index is the same as their nodes index
 
-        frames = []
+        frames: list[Frame] = []
         for node in tree.nodes:
             if node.bl_idname == "NodeFrame":
                 frames.append(Frame(tree, node))
@@ -1688,7 +1582,7 @@ class Frame(Box):
 
         # ----- Transform the tree links in links between boxes
 
-        top.blinks = {}
+        top.blinks: dict[tuple[int, int], bNodeLink] = {}
         nodes = list(tree.nodes)
 
         for link in tree.links:
@@ -1704,12 +1598,7 @@ class Frame(Box):
 
         return top
 
-    # ---------------------------------------------------------------------------
-    # Compute the columns
-
-    def compute_columns(self):
-        debug = False
-
+    def compute_columns(self, **kwargs):
         # ---------------------------------------------------------------------------
         # Compute sub frames and reset col property
 
@@ -1723,39 +1612,46 @@ class Frame(Box):
         # 1) Compute the column index of the children
         # 2) Capture the list of in an out reroute nodes
 
-        in_rrs = []
-        out_rrs = []
+        i_reroutes: list[Box] = []
+        o_reroutes: list[Box] = []
 
         for child in self.boxes:
             child.update_column(0)
 
             if child.is_input_reroute:
-                in_rrs.append(child)
+                i_reroutes.append(child)
 
             elif child.is_output_reroute:
-                out_rrs.append(child)
+                o_reroutes.append(child)
 
         if not self.boxes:
             return
+
+        # left shif non-group-input-1 boxes
+        if kwargs.get("shift") and self.node is None:
+            for child in self.boxes[1:]:
+                if child.col >= self.boxes[0].col:
+                    if child.is_frame or child.node.inputs.__len__() > 0:
+                        child.update_column(child.col + 1)
 
         # ---------------------------------------------------------------------------
         # How many columns do we have ?
         # We put the input reroutes as first column
 
-        max_col = max([box.col for box in self.boxes])
+        max_col = max(box.col for box in self.boxes)
 
         # Put the input reroutes as the leftmost column
 
-        for rr in in_rrs:
-            rr.col = max_col
+        for reroute in i_reroutes:
+            reroute.col = max_col
 
         # ---------------------------------------------------------------------------
         # Create the columns
 
         ncols = max_col + 1
         self.cols = [Column(index) for index in range(ncols)]
-        for i in range(ncols - 1):
-            self.cols[i].prev_col = self.cols[i + 1]
+        for i in range(max_col):
+            self.cols[i].previous_col = self.cols[i + 1]
 
         for box in self.boxes:
             self.cols[box.col].append(box)
@@ -1768,11 +1664,13 @@ class Frame(Box):
             x += Column.X_SEPA + col.width
 
         # Reset the y setup position of the boxes
-        # x location is initialized since it won't change for not frames
+        # x location is initialized since it won't change for non-frames
 
         for box in self.boxes:
             box.located = False
-            box.x = self.cols[box.col].x
+            col = self.cols[box.col]
+            # box.x = col.x
+            box.x = col.x + col.width - box.w
 
         # ---------------------------------------------------------------------------
         # The boxes are vertically ordered by following the links from right to left
@@ -1784,19 +1682,44 @@ class Frame(Box):
 
         # ---- Loop while there is boxes to locate
 
-        bug = True
-        for wd in range(1000):  # No break exit will raise an error
+        for _ in range(1000):  # No break exit will raise an error
             if not new_feedings:
-                bug = False
+
+                max_height = max(col.height for col in self.cols)
+                for box in self.boxes:
+                    box.y -= (max_height - self.cols[box.col].height) / 2
+
+                # Relocate the in/out reroutes
+                self.cols[-1].relocate_reroutes()
+                self.cols[0].relocate_reroutes()
+
+                if self.node is None:
+                    total_width = sum(col.width for col in self.cols)
+                    for box in self.boxes:
+                        box.x -= total_width / 2
+                        box.y += max_height / 2
+                    # 叠瓦
+                    # reversed_cols = [col for col in reversed(self.cols)]
+                    # for i, col in enumerate(reversed_cols):
+                    #     if i == 0:
+                    #         continue
+                    #     pre_head_box = reversed_cols[i - 1][0]
+                    #     if col[0].y < pre_head_box.y:
+                    #         if not pre_head_box.is_frame:
+                    #             if col[0].index == 1:
+                    #                 col[0].y = pre_head_box.y - pre_head_box.h / 2 + col[0].h / 2
+                    #             else:
+                    #                 col[0].y = pre_head_box.y + 60
+
                 break
 
-            # feedings = sorted(new_feedings, key=lambda b: b.col)
-            feedings = new_feedings
+            feedings = sorted(new_feedings, key=lambda b: b.col)
+            # feedings = new_feedings
             new_feedings = []
 
             # ----- Loop on the boxes
 
-            for i_box, box in enumerate(feedings):
+            for box in feedings:
                 # ----- Already located
 
                 if box.located:
@@ -1815,7 +1738,7 @@ class Frame(Box):
 
                 # ----- y is min of left columns
 
-                y = min([col.next_y for col in self.cols[col.col_index :]])
+                y = min([col.next_y for col in self.cols[col.col_index:]])
 
                 # ----- Locate the box in the column
 
@@ -1825,41 +1748,33 @@ class Frame(Box):
 
                 box_links = box.sorted_in_siblings()
                 for box_link in box_links:
-                    fb = box_link.sib_from
-                    if not fb.located and fb not in new_feedings:
-                        new_feedings.append(fb)
-
-        if bug:
+                    from_box = box_link.sib_from
+                    if not from_box.located and from_box not in new_feedings:
+                        new_feedings.append(from_box)
+        else:
             raise RuntimeError("Algorithm error")
 
-        # ---------------------------------------------------------------------------
-        # Relocate the in/out reroutes
 
-        self.cols[-1].relocate_reroutes()
-        self.cols[0].relocate_reroutes()
+class Column(list[Box]):
+    """A Column of boxes"""
 
-
-# ====================================================================================================
-# A Column of boxes
-
-
-class Column(list):
     X_SEPA = 60
-    Y_SEPA = 60
+    Y_SEPA = 20
 
     def __init__(self, index, x=0, y=0):
         super().__init__()
 
         self.col_index = index
+
         self.x = x
         self.y = y
 
-        self.prev_col = None
+        self.previous_col = None
 
     @property
     def width(self):
         if self:
-            return max([box.w for box in self])
+            return max(box.w for box in self)
         else:
             return 10
 
@@ -1870,24 +1785,21 @@ class Column(list):
     # ----------------------------------------------------------------------------------------------------
     # Return index and box from either index or box
 
-    def index_box(self, box):
-        if isinstance(box, Box):
+    def index_box(self, ibox_or_box):
+        if isinstance(ibox_or_box, Box):
+            box = ibox_or_box
             try:
-                i_box = self.index(box)
+                return self.index(box), box
 
             except ValueError as e:
                 return None, None
-
         else:
-            i_box = box
-            box = self[i_box]
+            ibox = ibox_or_box
+            return ibox, self[ibox]
 
-        return i_box, box
+    def move(self, box: Box, index: int):
+        """Move a box in the list"""
 
-    # ----------------------------------------------------------------------------------------------------
-    # Move a box in the list
-
-    def move(self, box, index):
         i_box, box = self.index_box(box)
 
         if i_box == index:
@@ -1900,16 +1812,14 @@ class Column(list):
 
         box.y = self[index].y
 
-        dy = box.h + Column.Y_SEPA
         for b in self[index:]:
             b.y -= dy
         self.insert(index, box)
 
-    # ----------------------------------------------------------------------------------------------------
-    # Height with only located boxes
-
     @property
     def next_y(self):
+        """Height with only located boxes"""
+
         y = 0
         for box in self:
             if box.located:
@@ -1919,11 +1829,10 @@ class Column(list):
 
         return y
 
-    # ----------------------------------------------------------------------------------------------------
-    # Located boxes count
-
     @property
     def located_count(self):
+        """Located boxes count"""
+
         n = 0
         for box in self:
             if box.located:
@@ -1931,17 +1840,14 @@ class Column(list):
             else:
                 return n
 
-    # ----------------------------------------------------------------------------------------------------
-    # return 1 if no located boxes
-
     @property
     def no_located_box(self):
+        """return 1 if no located boxes"""
         return 1 if self.located_count == 0 else 0
 
-    # ----------------------------------------------------------------------------------------------------
-    # Locate a box
-
     def locate_box(self, box, y):
+        """Locate a box"""
+
         i_box, box = self.index_box(box)
 
         self.move(i_box, self.located_count)
@@ -1949,10 +1855,9 @@ class Column(list):
         box.y = y
         box.located = True
 
-    # ----------------------------------------------------------------------------------------------------
-    # Relocate input reroutes
-
     def relocate_reroutes(self):
+        """Relocate input reroutes"""
+
         # ----- Get all the reroute nodes in the list
 
         irrs = []
@@ -1969,19 +1874,19 @@ class Column(list):
             self.move(index, i)
 
 
-# ====================================================================================================
-# Arrange a tree
+def arrange(name: str, **kwargs):
+    """Arrange a tree"""
 
-
-def arrange(name, reroutes=True):
     tree = bpy.data.node_groups[name]
 
-    # Some cleaning
+    for node in get_single_nodes(tree):
+        # if node.bl_idname in ["NodeGroupInput"]:
+        #     tree.nodes.remove(node)
+        node.use_custom_color = True
+        node.color = Color((0.8, 0.8, 0.8))
 
-    delete_single_nodes(tree)
-
-    top = Frame.Tree(tree, reroutes=reroutes)
+    top = Frame.Tree(tree, **kwargs)
     if top is None:
         return
 
-    top.compute_columns()
+    top.compute_columns(**kwargs)

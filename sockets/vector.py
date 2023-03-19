@@ -10,7 +10,6 @@ Blender version: 3.4.0
 import geonodes as gn
 from geonodes.core import datasockets as dsock
 from geonodes.nodes import nodes
-import geonodes.core.domains as domains
 
 import logging
 logger = logging.Logger('geonodes')
