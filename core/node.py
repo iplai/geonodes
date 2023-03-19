@@ -774,7 +774,7 @@ class CustomGroup(Node):
     # We are idiot proof and accept capitalized versions :-)
     # Output sockets are "write only"
         
-    def __getattr__(self, name):
+    def __getattr__(self, name) -> "DataSocket":
         ds = None
         if name != 'outsockets':
             if hasattr(self, 'outsockets'):
@@ -861,6 +861,9 @@ class Group(CustomGroup):
                 raise AttributeError(f"The node group '{self.node_name}' has no input socket named '{k}'.")
             self.plug(index, v)
         return self
+    
+    def __getitem__(self, socket_name: str) -> "DataSocket":
+        return self.__getattr__(socket_name)
 
     
 # ----------------------------------------------------------------------------------------------------

@@ -1500,7 +1500,7 @@ class Frame(Box):
 
         x0, y0, x1, y1 = self.inner_box
 
-        return [x1 - x0 + 60.0, y0 - y1 + 60.0]
+        return [x1 - x0 + 60.0, y0 - y1 + 60.0 + +60]
 
     @property
     def top(self) -> "Frame":
@@ -1685,31 +1685,40 @@ class Frame(Box):
         for _ in range(1000):  # No break exit will raise an error
             if not new_feedings:
 
-                max_height = max(col.height for col in self.cols)
-                for box in self.boxes:
-                    box.y -= (max_height - self.cols[box.col].height) / 2
+                if kwargs.get("center"):
+                    max_height = max(col.height for col in self.cols)
+                    # vertical centering
+                    for box in self.boxes:
+                        box.y -= (max_height - self.cols[box.col].height) / 2
 
                 # Relocate the in/out reroutes
                 self.cols[-1].relocate_reroutes()
                 self.cols[0].relocate_reroutes()
 
                 if self.node is None:
+                    max_height = max(col.height for col in self.cols)
                     total_width = sum(col.width for col in self.cols)
+                    # for col in self.cols:
+                    #     y_0 = col[0].y+col[0].h
+                    #     for box in col:
+                    #         offset_y = Column.Y_SEPA+
                     for box in self.boxes:
                         box.x -= total_width / 2
                         box.y += max_height / 2
-                    # 叠瓦
-                    # reversed_cols = [col for col in reversed(self.cols)]
-                    # for i, col in enumerate(reversed_cols):
-                    #     if i == 0:
-                    #         continue
-                    #     pre_head_box = reversed_cols[i - 1][0]
-                    #     if col[0].y < pre_head_box.y:
-                    #         if not pre_head_box.is_frame:
-                    #             if col[0].index == 1:
-                    #                 col[0].y = pre_head_box.y - pre_head_box.h / 2 + col[0].h / 2
-                    #             else:
-                    #                 col[0].y = pre_head_box.y + 60
+
+                    if kwargs.get("imbricate"):
+                        # 叠瓦
+                        reversed_cols = [col for col in reversed(self.cols)]
+                        for i, col in enumerate(reversed_cols):
+                            if i == 0:
+                                continue
+                            pre_head_box = reversed_cols[i - 1][0]
+                            if col[0].y < pre_head_box.y:
+                                if not pre_head_box.is_frame:
+                                    if col[0].index == 1:
+                                        col[0].y = pre_head_box.y - pre_head_box.h / 2 + col[0].h / 2
+                                    else:
+                                        col[0].y = pre_head_box.y + 60
 
                 break
 
@@ -1759,7 +1768,7 @@ class Column(list[Box]):
     """A Column of boxes"""
 
     X_SEPA = 60
-    Y_SEPA = 20
+    Y_SEPA = 40
 
     def __init__(self, index, x=0, y=0):
         super().__init__()
@@ -1876,6 +1885,8 @@ class Column(list[Box]):
 
 def arrange(name: str, **kwargs):
     """Arrange a tree"""
+
+    kwargs.setdefault("center", True)
 
     tree = bpy.data.node_groups[name]
 

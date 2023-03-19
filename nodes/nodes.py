@@ -6911,19 +6911,19 @@ class Cone(Node):
         self.bnode.fill_type = value
 
     @property
-    def mesh(self):
+    def mesh(self) -> "geonodes.Mesh":
         return self.get_output_socket('mesh')
 
     @property
-    def top(self):
+    def top(self) -> "geonodes.Boolean":
         return self.get_output_socket('top')
 
     @property
-    def bottom(self):
+    def bottom(self) -> "geonodes.Boolean":
         return self.get_output_socket('bottom')
 
     @property
-    def side(self):
+    def side(self) -> "geonodes.Boolean":
         return self.get_output_socket('side')
 
     @property

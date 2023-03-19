@@ -291,6 +291,9 @@ class Trees:
         """
         return getattr(self, name)(**kwargs)
 
+    def __call__(self, name, **kwargs) -> "DataSocket":
+        return self.call(name, **kwargs)
+
 
 # =============================================================================================================================
 # Nodes tree
@@ -1369,4 +1372,4 @@ class Tree:
         self.arrange()
 
         print(
-            f"Geonodes: tree '{self.btree.name}' built with {len(self.nodes)} nodes and {len(self.btree.links)} links.")
+            f"'{self.btree.name}': built with {len(self.nodes)} nodes and {len(self.btree.links)} links.")

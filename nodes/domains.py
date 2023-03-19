@@ -438,8 +438,9 @@ class Domain(geodom.Domain):
 
 
         """
-
-        return self.attribute_node(nodes.Normal()).normal
+        import geonodes
+        socket: geonodes.Vector = self.attribute_node(nodes.Normal()).normal
+        return socket
 
 
     @property
@@ -1134,8 +1135,14 @@ class Face(Domain):
 
 
         """
+        import geonodes
+        socket: geonodes.Float = self.attribute_node(nodes.FaceArea()).area
+        return socket
+    
+    def to_points(self, selection=None, position=None, radius=None):
 
-        return self.attribute_node(nodes.FaceArea())
+        import geonodes as gn
+        return gn.Points(nodes.MeshToPoints(mesh=self.data_socket, selection=selection, position=position, radius=radius, mode="FACES").points)
 
 
     def corners(self, weights=None, sort_index=None):
