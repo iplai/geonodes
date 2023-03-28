@@ -93,9 +93,9 @@ class Node:
         """ Node name"""
         self.label_  = None
         if bl_idname == 'GeometryNodeGroup':
-            self.bnode = self.tree.get_bnode(bl_idname, node_name)
+            self.bnode: bpy.types.Node = self.tree.get_bnode(bl_idname, node_name)
         else:
-            self.bnode = self.tree.get_bnode(bl_idname, label)
+            self.bnode: bpy.types.Node = self.tree.get_bnode(bl_idname, label)
             
         self.bnode.name = str(self)
         self.label      = label
@@ -306,6 +306,7 @@ class Node:
         If the label provided at initialization time is None, the node is labeled by concatening
         its unique id with its standard name.
         """
+        # return f"{self.node_id:2d} {self.node_name}" if self.label_ is None else f"{self.node_id:2d} {self.label_}"
         return f"{self.node_id:2d} {self.node_name}" if self.label_ is None else f"{self.node_id:2d} {self.label_}"
     
     @property
@@ -316,7 +317,9 @@ class Node:
     @label.setter
     def label(self, value):
         self.label_ = value
-        self.bnode.label = self.get_label()
+        if value is not None:
+            self.bnode.label = value
+        # self.bnode.label = self.get_label()
         
     # ---------------------------------------------------------------------------
     # Chain label used when labeling chained nodes

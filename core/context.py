@@ -18,8 +18,11 @@ import logging
 
 logger = logging.getLogger("geonodes")
 
-
-tree = None
+try:
+    from .tree import Tree
+except ImportError:
+    ...
+tree: "Tree" = None
 
 # ====================================================================================================
 # Utilities

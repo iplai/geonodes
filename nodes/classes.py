@@ -423,6 +423,11 @@ class Geometry(geosocks.Geometry):
     def mesh(self):
         import geonodes as gn
         return gn.Mesh(self)
+    
+    @property
+    def geometry(self):
+        import geonodes as gn
+        return gn.Geometry(self)
 
 
     def named_attribute(self, name=None, data_type='FLOAT'):
@@ -897,7 +902,7 @@ class Geometry(geosocks.Geometry):
         - selection: Boolean
         - domain (str): 'POINT' in [POINT, EDGE, FACE, CURVE, INSTANCE]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')
@@ -1247,7 +1252,7 @@ class Mesh(Geometry):
         - depth: Float
         - fill_type (str): 'NGON' in [NONE, NGON, TRIANGLE_FAN]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeMeshCone.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeMeshCone.png)
 
         #### Returns:
         - tuple ('`mesh`', '`top`', '`bottom`', '`side`')
@@ -1294,7 +1299,7 @@ class Mesh(Geometry):
         - depth: Float
         - fill_type (str): 'NGON' in [NONE, NGON, TRIANGLE_FAN]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeMeshCylinder.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeMeshCylinder.png)
 
         #### Returns:
         - tuple ('`mesh`', '`top`', '`bottom`', '`side`')
@@ -1527,7 +1532,7 @@ class Mesh(Geometry):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfFace.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfFace.png)
 
         #### Returns:
         - tuple ('`corner_index`', '`total`')
@@ -1548,7 +1553,7 @@ class Mesh(Geometry):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfVertex.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfVertex.png)
 
         #### Returns:
         - tuple ('`corner_index`', '`total`')
@@ -1625,7 +1630,7 @@ class Mesh(Geometry):
         - seed: Integer
         - distribute_method (str): 'RANDOM' in [RANDOM, POISSON]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeDistributePointsOnFaces.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeDistributePointsOnFaces.png)
 
         #### Returns:
         - tuple ('`points`', '`normal`', '`rotation`')
@@ -1730,7 +1735,7 @@ class Mesh(Geometry):
         #### Args:
         - corner_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfCorner.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfCorner.png)
 
         #### Returns:
         - tuple ('`next_edge_index`', '`previous_edge_index`')
@@ -1751,7 +1756,7 @@ class Mesh(Geometry):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfVertex.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfVertex.png)
 
         #### Returns:
         - tuple ('`edge_index`', '`total`')
@@ -1775,7 +1780,7 @@ class Mesh(Geometry):
         - individual: Boolean
         - mode (str): 'FACES' in [VERTICES, EDGES, FACES]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.png)
 
         #### Returns:
         - tuple ('`top`', '`side`')
@@ -1827,7 +1832,7 @@ class Mesh(Geometry):
         #### Args:
         - corner_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeFaceOfCorner.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeFaceOfCorner.png)
 
         #### Returns:
         - tuple ('`face_index`', '`index_in_face`')
@@ -2032,7 +2037,7 @@ class Mesh(Geometry):
         - source_uv_map: Vector
         - sample_uv: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSampleUVSurface.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSampleUVSurface.png)
 
         #### Returns:
         - tuple ('`value`', '`is_valid`')
@@ -2105,7 +2110,7 @@ class Mesh(Geometry):
 
         return self.stack(nodes.ScaleElements(geometry=self, selection=selection, scale=scale, center=center, axis=None, domain=domain, scale_mode='UNIFORM'))
 
-    def set_shade_smooth(self, selection=None, shade_smooth=None):
+    def set_shade_smooth(self, selection=None, shade_smooth: bool=None):
         """
 
         `Node`: [Set Shade Smooth](api/GeometryNodeSetShadeSmooth.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/mesh/set_shade_smooth.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSetShadeSmooth.html)
@@ -2132,7 +2137,7 @@ class Mesh(Geometry):
         - end_vertex: Boolean
         - edge_cost: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInputShortestEdgePaths.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInputShortestEdgePaths.png)
 
         #### Returns:
         - tuple ('`next_vertex_index`', '`total_cost`')
@@ -2409,7 +2414,7 @@ class Curve(Geometry):
         - point_2: Vector
         - point_3: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurvePrimitiveCircle.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurvePrimitiveCircle.png)
 
         #### Returns:
         - tuple ('`curve`', '`center`')
@@ -2557,7 +2562,7 @@ class Curve(Geometry):
         #### Args:
         - point_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveOfPoint.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveOfPoint.png)
 
         #### Returns:
         - tuple ('`curve_index`', '`index_in_curve`')
@@ -2740,7 +2745,7 @@ class Curve(Geometry):
         - point_index: Integer
         - offset: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeOffsetPointInCurve.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeOffsetPointInCurve.png)
 
         #### Returns:
         - tuple ('`is_valid_offset`', '`point_index`')
@@ -2777,7 +2782,7 @@ class Curve(Geometry):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodePointsOfCurve.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodePointsOfCurve.png)
 
         #### Returns:
         - tuple ('`point_index`', '`total`')
@@ -2956,7 +2961,7 @@ class Curve(Geometry):
         - length: Float
         - mode (str): 'COUNT' in [EVALUATED, COUNT, LENGTH]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.png)
 
         #### Returns:
         - tuple ('`points`', '`tangent`', '`normal`', '`rotation`')
@@ -2976,7 +2981,7 @@ class Curve(Geometry):
         #### Args:
         - count: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.png)
 
         #### Returns:
         - tuple ('`points`', '`tangent`', '`normal`', '`rotation`')
@@ -2993,7 +2998,7 @@ class Curve(Geometry):
 
         `Node`: [Curve to Points](api/GeometryNodeCurveToPoints.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve/curve_to_points.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeCurveToPoints.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.png)
 
         #### Returns:
         - tuple ('`points`', '`tangent`', '`normal`', '`rotation`')
@@ -3013,7 +3018,7 @@ class Curve(Geometry):
         #### Args:
         - length: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveToPoints.png)
 
         #### Returns:
         - tuple ('`points`', '`tangent`', '`normal`', '`rotation`')
@@ -3114,7 +3119,7 @@ class Points(Geometry):
 
     def instance_on_points(self, selection=None, instance=None, pick_instance=None, instance_index=None, rotation=None, scale=None):
         """
-
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInstanceOnPoints.png)
         `Node`: [Instance on Points](api/GeometryNodeInstanceOnPoints.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/instances/instance_on_points.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeInstanceOnPoints.html)
 
         #### Args:
@@ -3413,6 +3418,12 @@ class Float(geosocks.Float):
     def __mod__(self, other) -> "Float":
         return self.modulo(other)
 
+    def __div__(self, other) -> "Float":
+        return self.div(other)
+    
+    def __rpow__(self, other) -> "Float":
+        return self.power(other)
+    
     def __eq__(self, other) -> "Boolean":
         return self.equal(other)
 
@@ -4661,7 +4672,7 @@ class Float(geosocks.Float):
         return nodes.Math(value0=self, value1=None, value2=None, operation='SQRT', use_clamp=clamp).value
 
 
-    def switch(self, switch=None, true=None):
+    def switch(self, switch=None, true=None) -> "Float":
         """
 
         `Node`: [Switch](api/GeometryNodeSwitch.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/utilities/switch.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSwitch.html)
@@ -5712,7 +5723,7 @@ class Vector(geosocks.Vector):
         return nodes.VectorMath(vector0=self, vector1=None, vector2=None, scale=None, operation='COSINE').vector
 
 
-    def cross(self, vector=None):
+    def cross(self, vector=None) -> "Vector":
         """
 
         `Node`: [Vector Math](api/ShaderNodeVectorMath.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/vector/vector_math.html) | [api reference](https://docs.blender.org/api/current/bpy.types.ShaderNodeVectorMath.html)
@@ -6233,7 +6244,7 @@ class Vector(geosocks.Vector):
 
 
     @property
-    def length(self):
+    def length(self) -> "Float":
         """
 
         `Node`: [Vector Math](api/ShaderNodeVectorMath.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/vector/vector_math.html) | [api reference](https://docs.blender.org/api/current/bpy.types.ShaderNodeVectorMath.html)
@@ -6654,6 +6665,15 @@ class Vector(geosocks.Vector):
 
     def __mul__(self, other):
         return self.multiply(other)
+    
+    def __div__(self, other):
+        return self.div(other)
+    
+    def __add__(self, other):
+        return self.add(other)
+    
+    def __sub__(self, other):
+        return self.sub(other)
 
     def multiply_add(self, multiplier=None, addend=None):
         """
@@ -7230,6 +7250,9 @@ class Integer(geosocks.Integer):
 
     def __eq__(self, other) -> "Boolean":
         return self.equal(other)
+    
+    def __le__(self, other) -> "Boolean":
+        return self.less_equal(other)
 
     @classmethod
     def Integer(cls, integer=0):
@@ -8697,7 +8720,7 @@ class String(geosocks.String):
         - overflow (str): 'OVERFLOW' in [OVERFLOW, SCALE_TO_FIT, TRUNCATE]
         - pivot_mode (str): 'BOTTOM_LEFT' in [MIDPOINT, TOP_LEFT, TOP_CENTER,... , BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeStringToCurves.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeStringToCurves.png)
 
         #### Returns:
         - tuple ('`curve_instances`', '`line`', '`pivot_point`')
@@ -8844,7 +8867,7 @@ class Texture(geosocks.Texture):
         - squash (float): 1.0
         - squash_frequency (int): 2
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexBrick.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexBrick.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8868,7 +8891,7 @@ class Texture(geosocks.Texture):
         - color2: Color
         - scale: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexChecker.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexChecker.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8890,7 +8913,7 @@ class Texture(geosocks.Texture):
         - vector: Vector
         - gradient_type (str): 'LINEAR' in [LINEAR, QUADRATIC, EASING, DIAGONAL, SPHERICAL, QUADRATIC_SPHERE, RADIAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8911,7 +8934,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8932,7 +8955,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8953,7 +8976,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8974,7 +8997,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -8995,7 +9018,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9016,7 +9039,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9037,7 +9060,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexGradient.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9062,7 +9085,7 @@ class Texture(geosocks.Texture):
         - extension (str): 'REPEAT' in [REPEAT, EXTEND, CLIP]
         - interpolation (str): 'Linear' in [Linear, Closest, Cubic]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeImageTexture.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeImageTexture.png)
 
         #### Returns:
         - tuple ('`color`', '`alpha`')
@@ -9086,7 +9109,7 @@ class Texture(geosocks.Texture):
         - distortion: Float
         - turbulence_depth (int): 2
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexMagic.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexMagic.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9165,7 +9188,7 @@ class Texture(geosocks.Texture):
         - roughness: Float
         - distortion: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9190,7 +9213,7 @@ class Texture(geosocks.Texture):
         - roughness: Float
         - distortion: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9215,7 +9238,7 @@ class Texture(geosocks.Texture):
         - roughness: Float
         - distortion: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9241,7 +9264,7 @@ class Texture(geosocks.Texture):
         - roughness: Float
         - distortion: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexNoise.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9288,7 +9311,7 @@ class Texture(geosocks.Texture):
         - feature (str): 'F1' in [F1, F2, SMOOTH_F1, DISTANCE_TO_EDGE, N_SPHERE_RADIUS]
         - voronoi_dimensions (str): '3D' in [1D, 2D, 3D, 4D]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.png)
 
         #### Returns:
         - tuple ('`distance`', '`color`', '`position`', '`w`')
@@ -9316,7 +9339,7 @@ class Texture(geosocks.Texture):
         - feature (str): 'F1' in [F1, F2, SMOOTH_F1, DISTANCE_TO_EDGE, N_SPHERE_RADIUS]
         - voronoi_dimensions (str): '3D' in [1D, 2D, 3D, 4D]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.png)
 
         #### Returns:
         - tuple ('`distance`', '`color`', '`w`')
@@ -9344,7 +9367,7 @@ class Texture(geosocks.Texture):
         - feature (str): 'F1' in [F1, F2, SMOOTH_F1, DISTANCE_TO_EDGE, N_SPHERE_RADIUS]
         - voronoi_dimensions (str): '3D' in [1D, 2D, 3D, 4D]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.png)
 
         #### Returns:
         - tuple ('`distance`', '`color`', '`position`')
@@ -9372,7 +9395,7 @@ class Texture(geosocks.Texture):
         - feature (str): 'F1' in [F1, F2, SMOOTH_F1, DISTANCE_TO_EDGE, N_SPHERE_RADIUS]
         - voronoi_dimensions (str): '3D' in [1D, 2D, 3D, 4D]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.png)
 
         #### Returns:
         - tuple ('`distance`', '`color`', '`position`')
@@ -9401,7 +9424,7 @@ class Texture(geosocks.Texture):
         - feature (str): 'F1' in [F1, F2, SMOOTH_F1, DISTANCE_TO_EDGE, N_SPHERE_RADIUS]
         - voronoi_dimensions (str): '3D' in [1D, 2D, 3D, 4D]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexVoronoi.png)
 
         #### Returns:
         - tuple ('`distance`', '`color`', '`position`', '`w`')
@@ -9432,7 +9455,7 @@ class Texture(geosocks.Texture):
         - wave_profile (str): 'SIN' in [SIN, SAW, TRI]
         - wave_type (str): 'BANDS' in [BANDS, RINGS]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9461,7 +9484,7 @@ class Texture(geosocks.Texture):
         - direction (str): 'X' in [X, Y, Z, DIAGONAL]
         - wave_profile (str): 'SIN' in [SIN, SAW, TRI]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9489,7 +9512,7 @@ class Texture(geosocks.Texture):
         - phase_offset: Float
         - direction (str): 'X' in [X, Y, Z, DIAGONAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9517,7 +9540,7 @@ class Texture(geosocks.Texture):
         - phase_offset: Float
         - direction (str): 'X' in [X, Y, Z, DIAGONAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9545,7 +9568,7 @@ class Texture(geosocks.Texture):
         - phase_offset: Float
         - direction (str): 'X' in [X, Y, Z, DIAGONAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9574,7 +9597,7 @@ class Texture(geosocks.Texture):
         - direction (str): 'X' in [X, Y, Z, SPHERICAL]
         - wave_profile (str): 'SIN' in [SIN, SAW, TRI]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9602,7 +9625,7 @@ class Texture(geosocks.Texture):
         - phase_offset: Float
         - direction (str): 'X' in [X, Y, Z, SPHERICAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9630,7 +9653,7 @@ class Texture(geosocks.Texture):
         - phase_offset: Float
         - direction (str): 'X' in [X, Y, Z, SPHERICAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9658,7 +9681,7 @@ class Texture(geosocks.Texture):
         - phase_offset: Float
         - direction (str): 'X' in [X, Y, Z, SPHERICAL]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWave.png)
 
         #### Returns:
         - tuple ('`color`', '`fac`')
@@ -9681,7 +9704,7 @@ class Texture(geosocks.Texture):
         - w: Float
         - noise_dimensions (str): '3D' in [1D, 2D, 3D, 4D]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.png)
 
         #### Returns:
         - tuple ('`value`', '`color`')
@@ -9702,7 +9725,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - w: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.png)
 
         #### Returns:
         - tuple ('`value`', '`color`')
@@ -9723,7 +9746,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.png)
 
         #### Returns:
         - tuple ('`value`', '`color`')
@@ -9744,7 +9767,7 @@ class Texture(geosocks.Texture):
         #### Args:
         - vector: Vector
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.png)
 
         #### Returns:
         - tuple ('`value`', '`color`')
@@ -9766,7 +9789,7 @@ class Texture(geosocks.Texture):
         - vector: Vector
         - w: Float
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_ShaderNodeTexWhiteNoise.png)
 
         #### Returns:
         - tuple ('`value`', '`color`')
@@ -9810,7 +9833,7 @@ class Image(geosocks.Image):
         - extension (str): 'REPEAT' in [REPEAT, EXTEND, CLIP]
         - interpolation (str): 'Linear' in [Linear, Closest, Cubic]
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeImageTexture.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeImageTexture.png)
 
         #### Returns:
         - tuple ('`color`', '`alpha`')

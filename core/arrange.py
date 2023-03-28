@@ -1500,7 +1500,7 @@ class Frame(Box):
 
         x0, y0, x1, y1 = self.inner_box
 
-        return [x1 - x0 + 60.0, y0 - y1 + 60.0 + +60]
+        return [x1 - x0 + 60.0, y0 - y1 + 30]
 
     @property
     def top(self) -> "Frame":
@@ -1604,7 +1604,7 @@ class Frame(Box):
 
         for child in self.boxes:
             if child.is_frame:
-                child.compute_columns()
+                child.compute_columns(**kwargs)
 
             child.col = None
 
@@ -1669,8 +1669,10 @@ class Frame(Box):
         for box in self.boxes:
             box.located = False
             col = self.cols[box.col]
-            # box.x = col.x
-            box.x = col.x + col.width - box.w
+            if kwargs.get("left"):
+                box.x = col.x
+            else:
+                box.x = col.x + col.width - box.w
 
         # ---------------------------------------------------------------------------
         # The boxes are vertically ordered by following the links from right to left
@@ -1894,7 +1896,7 @@ def arrange(name: str, **kwargs):
         # if node.bl_idname in ["NodeGroupInput"]:
         #     tree.nodes.remove(node)
         node.use_custom_color = True
-        node.color = Color((0.8, 0.8, 0.8))
+        node.color = Color((0.9, 0.9, 0.9))
 
     top = Frame.Tree(tree, **kwargs)
     if top is None:

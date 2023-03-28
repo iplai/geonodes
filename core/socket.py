@@ -258,12 +258,12 @@ class Socket:
 
     @property
     def is_multi_input(self):
-        """ Shortcut for `self.bsocket.is_multi_output`
+        """ Shortcut for `self.bsocket.is_multi_input`
 
         Returns:
             is multi input socket (bool)
         """
-        return self.bsocket.is_multi_output
+        return self.bsocket.is_multi_input
 
     @property
     def links(self):

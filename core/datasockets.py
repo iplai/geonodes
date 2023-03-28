@@ -9,6 +9,7 @@ Created on Thu May  5 07:45:39 2022
 from geonodes.core.socket import DataSocket
 from geonodes.core.node import Node
 from geonodes.core.tree import Tree
+import mathutils
 
 from geonodes.nodes import nodes
 
@@ -666,6 +667,8 @@ class Vector(DataSocket):
                         f"A Vector must be initialized with arrays of 3 items, not {len(value)}: {value}"
                     )
                 x, y, z = value
+            elif isinstance(value, mathutils.Vector):
+                x, y, z = value.x, value.y, value.z
             else:
                 x, y, z = (value, value, value)
 
@@ -674,10 +677,10 @@ class Vector(DataSocket):
             super().__init__(node.vector, node)
 
         # ----- x, y, z components can be accessed individually
-
-        self.x_ = None
-        self.y_ = None
-        self.z_ = None
+        import geonodes
+        self.x_:geonodes.Float = None
+        self.y_: geonodes.Float = None
+        self.z_: geonodes.Float = None
 
         # ----- Hack for implementing vector += value in set_position(offset=value)
         # See domains and fields

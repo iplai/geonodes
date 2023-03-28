@@ -376,7 +376,7 @@ class Compare(Node):
         self.bnode.operation = value
 
     @property
-    def result(self):
+    def result(self) -> "geonodes.Boolean":
         return self.get_output_socket('result')
 
     @property
@@ -1027,7 +1027,7 @@ class RotateEuler(Node):
         self.bnode.type = value
 
     @property
-    def rotation(self):
+    def rotation(self) -> "geonodes.Vector":
         return self.get_output_socket('rotation')
 
     @rotation.setter
@@ -6021,11 +6021,11 @@ class SceneTime(Node):
         self.outsockets = {'seconds' : 0, 'frame' : 1, }
 
     @property
-    def seconds(self):
+    def seconds(self) -> "geonodes.Float":
         return self.get_output_socket('seconds')
 
     @property
-    def frame(self):
+    def frame(self) -> "geonodes.Float":
         return self.get_output_socket('frame')
 
 # ----------------------------------------------------------------------------------------------------
@@ -6308,7 +6308,7 @@ class InstanceOnPoints(Node):
         if scale           is not None: self.scale           = scale
 
     @property
-    def instances(self):
+    def instances(self) -> "geonodes.Instances":
         return self.get_output_socket('instances')
 
     @property
@@ -6527,10 +6527,12 @@ class JoinGeometry(Node):
 
         # Input sockets plugging
 
+        # for i, geo in enumerate(geometry):
+
         self.plug(0, *geometry)
 
     @property
-    def geometry(self):
+    def geometry(self) -> "geonodes.Geometry":
         return self.get_output_socket('geometry')
 
     @geometry.setter
@@ -7899,7 +7901,7 @@ class ObjectInfo(Node):
         return self.get_output_socket('scale')
 
     @property
-    def geometry(self):
+    def geometry(self) -> "geonodes.Geometry":
         return self.get_output_socket('geometry')
 
     @property
@@ -9879,7 +9881,7 @@ class SeparateGeometry(Node):
         self.bnode.domain = value
 
     @property
-    def selection(self):
+    def selection(self) -> "geonodes.Geometry":
         return self.get_output_socket('selection')
 
     @property
@@ -12878,7 +12880,7 @@ class Math(Node):
         self.bnode.use_clamp = value
 
     @property
-    def value(self):
+    def value(self) -> "geonodes.Float":
         return self.get_output_socket('value')
 
     @property

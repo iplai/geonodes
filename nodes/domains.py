@@ -46,7 +46,7 @@ class Domain(geodom.Domain):
         - value: ['Vector', 'Float', 'Integer']
         - group_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeAccumulateField.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeAccumulateField.png)
 
         #### Returns:
         - tuple ('`leading`', '`trailing`', '`total`')
@@ -287,6 +287,11 @@ class Domain(geodom.Domain):
         import geonodes
         socket:geonodes.Integer =  self.attribute_node(nodes.Index()).index
         return socket
+    
+    @classmethod
+    def Index(cls):
+        import geonodes
+        return geonodes.nodes.Index().index
 
 
     def interpolate(self, value=None):
@@ -699,7 +704,7 @@ class Vertex(Domain):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfVertex.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfVertex.png)
 
         #### Returns:
         - tuple ('`corner_index`', '`total`')
@@ -847,7 +852,7 @@ class Vertex(Domain):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfVertex.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfVertex.png)
 
         #### Returns:
         - tuple ('`edge_index`', '`total`')
@@ -905,7 +910,7 @@ class Vertex(Domain):
         - offset_scale: Float
         - individual: Boolean
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.png)
 
         #### Returns:
         - tuple ('`top`', '`side`')
@@ -1065,7 +1070,7 @@ class Vertex(Domain):
 
         `Node`: [Separate Geometry](api/GeometryNodeSeparateGeometry.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/geometry/separate_geometry.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSeparateGeometry.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')
@@ -1154,7 +1159,7 @@ class Face(Domain):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfFace.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCornersOfFace.png)
 
         #### Returns:
         - tuple ('`corner_index`', '`total`')
@@ -1287,7 +1292,7 @@ class Face(Domain):
         - density_factor: Float
         - seed: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeDistributePointsOnFaces.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeDistributePointsOnFaces.png)
 
         #### Returns:
         - tuple ('`points`', '`normal`', '`rotation`')
@@ -1309,7 +1314,7 @@ class Face(Domain):
         - density: Float
         - seed: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeDistributePointsOnFaces.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeDistributePointsOnFaces.png)
 
         #### Returns:
         - tuple ('`points`', '`normal`', '`rotation`')
@@ -1349,7 +1354,7 @@ class Face(Domain):
         - offset_scale: Float
         - individual: Boolean
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.png)
 
         #### Returns:
         - tuple ('`top`', '`side`')
@@ -1672,7 +1677,7 @@ class Face(Domain):
 
         `Node`: [Separate Geometry](api/GeometryNodeSeparateGeometry.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/geometry/separate_geometry.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSeparateGeometry.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')
@@ -1947,7 +1952,7 @@ class Edge(Domain):
         - offset_scale: Float
         - individual: Boolean
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeExtrudeMesh.png)
 
         #### Returns:
         - tuple ('`top`', '`side`')
@@ -2051,7 +2056,7 @@ class Edge(Domain):
 
         `Node`: [Separate Geometry](api/GeometryNodeSeparateGeometry.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/geometry/separate_geometry.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSeparateGeometry.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')
@@ -2149,7 +2154,7 @@ class Edge(Domain):
 
         `Node`: [Edge Vertices](api/GeometryNodeInputMeshEdgeVertices.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/mesh/edge_vertices.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeInputMeshEdgeVertices.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInputMeshEdgeVertices.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInputMeshEdgeVertices.png)
 
         #### Returns:
         - tuple ('`vertex_index_1`', '`vertex_index_2`')
@@ -2169,7 +2174,7 @@ class Edge(Domain):
 
         `Node`: [Edge Vertices](api/GeometryNodeInputMeshEdgeVertices.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/mesh/edge_vertices.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeInputMeshEdgeVertices.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInputMeshEdgeVertices.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeInputMeshEdgeVertices.png)
 
         #### Returns:
         - tuple ('`position_1`', '`position_2`')
@@ -2206,7 +2211,7 @@ class Corner(Domain):
 
         `Node`: [Edges of Corner](api/GeometryNodeEdgesOfCorner.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/mesh_topology/edges_of_corner.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeEdgesOfCorner.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfCorner.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeEdgesOfCorner.png)
 
         #### Returns:
         - tuple ('`next_edge_index`', '`previous_edge_index`')
@@ -2223,7 +2228,7 @@ class Corner(Domain):
 
         `Node`: [Face of Corner](api/GeometryNodeFaceOfCorner.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/mesh_topology/face_of_corner.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeFaceOfCorner.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeFaceOfCorner.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeFaceOfCorner.png)
 
         #### Returns:
         - tuple ('`face_index`', '`index_in_face`')
@@ -2435,7 +2440,7 @@ class Spline(Domain):
 
         `Node`: [Spline Length](api/GeometryNodeSplineLength.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve/spline_length.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSplineLength.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSplineLength.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSplineLength.png)
 
         #### Returns:
         - tuple ('`length`', '`point_count`')
@@ -2556,7 +2561,7 @@ class Spline(Domain):
         - weights: Float
         - sort_index: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodePointsOfCurve.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodePointsOfCurve.png)
 
         #### Returns:
         - tuple ('`point_index`', '`total`')
@@ -2673,7 +2678,7 @@ class Spline(Domain):
 
         `Node`: [Separate Geometry](api/GeometryNodeSeparateGeometry.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/geometry/separate_geometry.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSeparateGeometry.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')
@@ -2844,7 +2849,7 @@ class ControlPoint(Domain):
 
         `Node`: [Curve of Point](api/GeometryNodeCurveOfPoint.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve_topology/curve_of_point.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeCurveOfPoint.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveOfPoint.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeCurveOfPoint.png)
 
         #### Returns:
         - tuple ('`curve_index`', '`index_in_curve`')
@@ -3098,7 +3103,7 @@ class ControlPoint(Domain):
         #### Args:
         - offset: Integer
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeOffsetPointInCurve.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeOffsetPointInCurve.png)
 
         #### Returns:
         - tuple ('`is_valid_offset`', '`point_index`')
@@ -3116,7 +3121,7 @@ class ControlPoint(Domain):
 
         `Node`: [Spline Parameter](api/GeometryNodeSplineParameter.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve/spline_parameter.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSplineParameter.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSplineParameter.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSplineParameter.png)
 
         #### Returns:
         - tuple ('`factor`', '`length`', '`index`')
@@ -3270,7 +3275,7 @@ class ControlPoint(Domain):
 
         `Node`: [Separate Geometry](api/GeometryNodeSeparateGeometry.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/geometry/separate_geometry.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSeparateGeometry.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')
@@ -3705,7 +3710,7 @@ class Instance(Domain):
 
         `Node`: [Separate Geometry](api/GeometryNodeSeparateGeometry.md) | [Blender reference](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/geometry/separate_geometry.html) | [api reference](https://docs.blender.org/api/current/bpy.types.GeometryNodeSeparateGeometry.html)
 
-        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.webp)
+        ![Node Image](https://docs.blender.org/manual/en/latest/_images/node-types_GeometryNodeSeparateGeometry.png)
 
         #### Returns:
         - tuple ('`selection`', '`inverted`')

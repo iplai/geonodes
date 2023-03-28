@@ -789,7 +789,8 @@ class Tree:
         """ Maintain a single instance of the node :class:`SceneTime`.
         """
         if self.scene_ is None:
-            self.scene_ = SceneTime()
+            from geonodes.nodes import nodes
+            self.scene_ = nodes.SceneTime()
         return self.scene_
 
     @property
