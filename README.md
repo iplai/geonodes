@@ -1,3 +1,3 @@
 # geonodes
 
-[Scripting Geometry Nodes for Blender](https://iplai.github.io/gn/)
+[Scripting Geometry Nodes for Blender](https://iplai.github.io/geonodesdoc/)
